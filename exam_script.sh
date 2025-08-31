@@ -1,86 +1,52 @@
 #!/bin/bash
 
-echo "================================================"
-echo "Linux Final Exam Script"
-echo "Date: $(date)"
-echo "================================================"
 
-echo "Step 1: crond service..."
-echo "checking crond..."
+
+
 
 if command -v systemctl >/dev/null 2>&1; then
     if systemctl is-active --quiet crond 2>/dev/null; then
-        echo "crond is running, attempting to stop..."
-        echo "Note: You will be prompted for your password to stop crond service"
+
         if sudo systemctl stop crond 2>/dev/null; then
-            echo "crond stopped successfully!"
+                        :
         else
-            echo "Warning: Could not stop crond (may be masked or protected)"
-            echo "Attempting to mask crond service..."
             sudo systemctl mask crond 2>/dev/null
-            echo "crond masked"
         fi
     elif systemctl is-masked crond 2>/dev/null; then
-        echo "crond is already masked"
+        :
     elif systemctl is-enabled crond 2>/dev/null; then
-        echo "crond is enabled but not running"
-        echo "Note: You will be prompted for your password to disable crond service"
         sudo systemctl disable crond 2>/dev/null
-        echo "crond disabled"
-    else
-        echo "crond service not found or not available"
     fi
     
-    echo "saving crond status to ~/crond.status"
     systemctl status crond > ~/crond.status 2>&1
-    echo "status saved!"
 else
-    echo "systemctl not available, checking crond process..."
     if pgrep crond >/dev/null 2>&1; then
-        echo "crond process found, attempting to stop..."
-        echo "Note: You will be prompted for your password to stop crond process"
         if sudo pkill crond 2>/dev/null; then
-            echo "crond process stopped!"
+            :
         else
-            echo "Warning: Could not stop crond process"
+            :
         fi
     else
-        echo "crond process not running"
+        :
     fi
     
-    echo "saving crond status to ~/crond.status"
     echo "systemctl not available" > ~/crond.status
     echo "crond process status: $(pgrep crond 2>/dev/null || echo 'not running')" >> ~/crond.status
-    echo "status saved!"
 fi
 
-echo "Step 1 done!"
-echo "----------------------------------------"
 
-echo "Step 2: creating logs directory..."
-echo "making folder logs-$(date +%d%m%Y)..."
 
 mkdir -p ~/logs-$(date +%d%m%Y)
 
-echo "changing group to final..."
-echo "Note: You will be prompted for your password to change group ownership"
+
 if sudo chgrp final ~/logs-$(date +%d%m%Y) 2>/dev/null; then
-    echo "group changed to final successfully"
-else
-    echo "Warning: Could not change group to 'final'"
-    echo "Attempting to create 'final' group if it doesn't exist..."
-    sudo groupadd final 2>/dev/null
-    sudo chgrp final ~/logs-$(date +%d%m%Y) 2>/dev/null
-    echo "group set to final"
-fi
+            :
+    else
+        sudo groupadd final 2>/dev/null
+        sudo chgrp final ~/logs-$(date +%d%m%Y) 2>/dev/null
+    fi
 
-echo "dir created: ~/logs-$(date +%d%m%Y)"
-echo "group set to final"
-echo "Step 2 done!"
-echo "----------------------------------------"
 
-echo "Step 3: setting permissions..."
-echo "setting 770 permissions..."
 
 chmod 770 ~/logs-$(date +%d%m%Y)
 
