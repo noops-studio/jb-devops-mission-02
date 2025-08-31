@@ -50,29 +50,17 @@ if sudo chgrp final ~/logs-$(date +%d%m%Y) 2>/dev/null; then
 
 chmod 770 ~/logs-$(date +%d%m%Y)
 
-echo "setting setgid bit..."
-echo "Note: You will be prompted for your password to set setgid bit"
 if sudo chmod g+s ~/logs-$(date +%d%m%Y) 2>/dev/null; then
-    echo "setgid bit set successfully"
+    :
 else
-    echo "Warning: Could not set setgid bit"
-    echo "permissions set to 770 without setgid"
+    :
 fi
 
-echo "permissions set!"
-echo "Step 3 done!"
-echo "----------------------------------------"
 
-echo "Step 4: creating 100 log files..."
-echo "making files user1-$(date +%d%m%Y)-1.log to user1-$(date +%d%m%Y)-100.log"
 
 for i in {1..100}; do
     touch ~/logs-$(date +%d%m%Y)/user1-$(date +%d%m%Y)-$i.log
 done
-
-echo "100 files created!"
-echo "Step 4 done!"
-echo "----------------------------------------"
 
 echo "================================================"
 echo "MAINTENANCE"
