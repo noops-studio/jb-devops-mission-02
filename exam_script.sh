@@ -1,14 +1,10 @@
 #!/bin/bash
 
-# Linux Final Exam Script
-# user1
-
 echo "================================================"
 echo "Linux Final Exam Script"
 echo "Date: $(date)"
 echo "================================================"
 
-# Step 1: crond service
 echo "Step 1: crond service..."
 echo "checking crond..."
 
@@ -27,7 +23,6 @@ echo "status saved!"
 echo "Step 1 done!"
 echo "----------------------------------------"
 
-# Step 2: create logs dir
 echo "Step 2: creating logs directory..."
 echo "making folder logs-$(date +%d%m%Y)..."
 
@@ -41,7 +36,6 @@ echo "group set to final"
 echo "Step 2 done!"
 echo "----------------------------------------"
 
-# Step 3: permissions
 echo "Step 3: setting permissions..."
 echo "setting 770 permissions..."
 
@@ -54,7 +48,6 @@ echo "permissions set!"
 echo "Step 3 done!"
 echo "----------------------------------------"
 
-# Step 4: create log files
 echo "Step 4: creating 100 log files..."
 echo "making files user1-$(date +%d%m%Y)-1.log to user1-$(date +%d%m%Y)-100.log"
 
@@ -66,7 +59,6 @@ echo "100 files created!"
 echo "Step 4 done!"
 echo "----------------------------------------"
 
-# Maintenance
 echo "================================================"
 echo "MAINTENANCE"
 echo "================================================"
@@ -139,9 +131,6 @@ echo "Step 8: making prep.sh script..."
 
 cat > ~/prep.sh << 'EOF'
 #!/bin/bash
-
-# Prep script
-# Linux exam
 
 echo "Prep Script"
 echo "==========="
